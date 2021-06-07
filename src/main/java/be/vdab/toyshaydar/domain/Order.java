@@ -30,7 +30,14 @@ public class Order {
     private Set<Product> products = new LinkedHashSet<>();
 
 
+    @ElementCollection
+    @CollectionTable(name = "orderdetails",
+            joinColumns = @JoinColumn(name = "orderId"))
+    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
+    public Set<OrderDetail> getOrderDetails() {
+        return Collections.unmodifiableSet(orderDetails);
+    }
 
     public Set<Product> getProducts() {
         return Collections.unmodifiableSet(products);
@@ -56,6 +63,7 @@ public class Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
     public long getId() {
         return id;
     }
