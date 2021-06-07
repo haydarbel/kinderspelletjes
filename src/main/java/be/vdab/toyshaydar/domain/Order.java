@@ -14,20 +14,23 @@ public class Order {
     private LocalDate required;
     private LocalDate shipped;
     private String comments;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
-
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @ManyToMany
-    @JoinTable(
-            name = "orderdetails",
-            joinColumns = @JoinColumn(name = "orderId"),
-            inverseJoinColumns = @JoinColumn(name = "productId"))
-    private Set<Product> products = new LinkedHashSet<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "orderdetails",
+//            joinColumns = @JoinColumn(name = "orderId"),
+//            inverseJoinColumns = @JoinColumn(name = "productId"))
+//    private Set<Product> products = new LinkedHashSet<>();
+//    public Set<Product> getProducts() {
+//        return Collections.unmodifiableSet(products);
+//    }
 
 
     @ElementCollection
@@ -39,13 +42,14 @@ public class Order {
         return Collections.unmodifiableSet(orderDetails);
     }
 
-    public Set<Product> getProducts() {
-        return Collections.unmodifiableSet(products);
-    }
 
 
     @Version
     private long version;
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
 
     public Order(LocalDate ordered, LocalDate required, LocalDate shipped,
                  String comments, OrderStatus status, Customer customer) {

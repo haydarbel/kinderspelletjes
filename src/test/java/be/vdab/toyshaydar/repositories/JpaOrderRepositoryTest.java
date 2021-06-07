@@ -60,7 +60,7 @@ class JpaOrderRepositoryTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     void findOrderById() {
         var order = orderRepository.findOrderById(idVanTestOrder()).get();
-        assertThat(order.getProducts()).hasSize(2);
+        assertThat(order.getOrderDetails()).hasSize(2);
     }
 
     @Test

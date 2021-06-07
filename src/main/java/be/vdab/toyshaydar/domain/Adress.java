@@ -35,4 +35,14 @@ public class Adress {
     public String getPostalCode() {
         return postalCode;
     }
+
+    @Override
+    public String toString() {
+        return "Adress{" +
+                "streetAndNumber='" + streetAndNumber + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
 }

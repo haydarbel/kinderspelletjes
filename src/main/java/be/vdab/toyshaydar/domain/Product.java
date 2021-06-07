@@ -63,6 +63,14 @@ public class Product {
         return version;
     }
 
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public long canBeShippedProduct() {
+        return inStock - inOrder;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

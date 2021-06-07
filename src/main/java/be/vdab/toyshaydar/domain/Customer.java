@@ -1,6 +1,7 @@
 package be.vdab.toyshaydar.domain;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ public class Customer {
     @Embedded
     private Adress adress;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "countryId")
     private Country country;
 
@@ -31,6 +32,10 @@ public class Customer {
     }
 
     protected Customer() {
+    }
+
+    public Set<Order> getOrders() {
+        return Collections.unmodifiableSet(orders);
     }
 
     public long getId() {
@@ -55,5 +60,12 @@ public class Customer {
 
     public void setVersion(long version) {
         this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

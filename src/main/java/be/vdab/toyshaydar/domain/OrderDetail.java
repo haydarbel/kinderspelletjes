@@ -7,13 +7,17 @@ import java.util.Objects;
 @Embeddable
 @Access(AccessType.FIELD)
 public class OrderDetail {
-    private long productId;
+
     private long ordered;
     private BigDecimal priceEach;
 
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @JoinColumn(name = "productId")
+    private Product product;
 
-    public OrderDetail( long productId, long ordered, BigDecimal priceEach) {
-        this.productId = productId;
+
+    public OrderDetail( Product product, long ordered, BigDecimal priceEach) {
+        this.product = product;
         this.ordered = ordered;
         this.priceEach = priceEach;
     }
@@ -26,16 +30,16 @@ public class OrderDetail {
         if (this == o) return true;
         if (!(o instanceof OrderDetail)) return false;
         OrderDetail that = (OrderDetail) o;
-        return productId == that.productId;
+        return product == that.product;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId);
+        return Objects.hash(product);
     }
 
-    public long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
     public long getOrdered() {
@@ -44,5 +48,20 @@ public class OrderDetail {
 
     public BigDecimal getPriceEach() {
         return priceEach;
+    }
+
+    public BigDecimal getValue() {
+        return priceEach.multiply(BigDecimal.valueOf(ordered));
+    }
+
+    public boolean isShippable() {
+        return product.canBeShippedProduct() >= ordered;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "product=" + product.getName() +
+                '}';
     }
 }

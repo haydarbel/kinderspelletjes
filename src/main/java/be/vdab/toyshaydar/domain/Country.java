@@ -44,4 +44,15 @@ public class Country {
     public long getVersion() {
         return version;
     }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
