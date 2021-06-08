@@ -18,4 +18,12 @@
             select o from Order o where o.status not in ('SHIPPED','CANCELLED') order by o.ordered
         </query>
     </named-query>
+    <named-query name="Order.findOrdersByIds">
+        <query>
+            select o from Order o
+            where o.id in (:ids) and
+            o.status not in ('SHIPPED','CANCELLED')
+            order by o.ordered
+        </query>
+    </named-query>
 </entity-mappings>

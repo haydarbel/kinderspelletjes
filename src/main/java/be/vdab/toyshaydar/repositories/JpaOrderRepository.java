@@ -44,6 +44,14 @@ public class JpaOrderRepository implements OrderRepository {
     }
 
     @Override
+    public List<Order> findOrdersByIds(List<Long> ids) {
+        return manager.createNamedQuery("Order.findOrdersByIds", Order.class)
+                .setParameter("ids", ids)
+                .getResultList();
+    }
+
+
+    @Override
     public List<Order> findAllOrders() {
         return manager.createNamedQuery("Order.findAllOrders", Order.class)
                 .getResultList();

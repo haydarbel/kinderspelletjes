@@ -1,6 +1,9 @@
 package be.vdab.toyshaydar.domain;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -22,17 +25,6 @@ public class Order {
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "orderdetails",
-//            joinColumns = @JoinColumn(name = "orderId"),
-//            inverseJoinColumns = @JoinColumn(name = "productId"))
-//    private Set<Product> products = new LinkedHashSet<>();
-//    public Set<Product> getProducts() {
-//        return Collections.unmodifiableSet(products);
-//    }
-
-
     @ElementCollection
     @CollectionTable(name = "orderdetails",
             joinColumns = @JoinColumn(name = "orderId"))
@@ -42,7 +34,9 @@ public class Order {
         return Collections.unmodifiableSet(orderDetails);
     }
 
-
+    public boolean addOrderDetail(OrderDetail orderDetail) {
+        return orderDetails.add(orderDetail);
+    }
 
     @Version
     private long version;
@@ -62,6 +56,23 @@ public class Order {
     }
 
     protected Order() {
+    }
+
+    public boolean setOrderAsShipped() {
+        for (OrderDetail orderDetail : orderDetails) {
+            if (!orderDetail.makeOrderDetailDone()) {
+                return false;
+            }
+        }
+        setStatus(OrderStatus.SHIPPED);
+        return true;
+    }
+
+    @NumberFormat(pattern = "0.00")
+    public BigDecimal getOrderTotalValue() {
+        return orderDetails.stream()
+                .map(OrderDetail::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void setCustomer(Customer customer) {
@@ -90,6 +101,10 @@ public class Order {
 
     public OrderStatus getStatus() {
         return status;
+    }
+
+    private void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public Customer getCustomer() {

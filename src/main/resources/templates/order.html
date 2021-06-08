@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="icon" th:href="@{/images/retrovideo.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/toys.css}">
+</head>
+<body>
+<div th:if="${order}" th:object="${order}">
+    <h1 th:text="|Order *{id}|"></h1>
+    <dl>
+        <dt>Ordered:</dt>
+        <dd th:text="*{ordered}"></dd>
+        <dt>Required</dt>
+        <dd th:text="*{required}"></dd>
+        <dt>Customer:</dt>
+        <dd th:text="*{customer.name}"></dd>
+        <dd th:text="*{customer.adress}"></dd>
+        <dd th:text="*{customer.country}"></dd>
+        <dt>Comments:</dt>
+        <dd th:text="*{comments}"></dd>
+        <dt>Details:</dt>
+        <dd>
+            <table th:if="*{orderDetails}">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price each</th>
+                    <th>Quantity</th>
+                    <th>Value</th>
+                    <th>Deliverable</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderdetail:*{orderDetails}" th:object="${orderdetail}">
+                    <td th:text="*{product}"></td>
+                    <td th:text="*{priceEach}"></td>
+                    <td th:text="*{ordered}"></td>
+                    <td th:text="*{getValue()}"></td>
+                    <td th:if="*{canItBeShipped()}" style="color: green">&check;</td>
+                    <td th:if="not *{canItBeShipped()}" style="color: red">&cross;</td>
+                </tr>
+                </tbody>
+            </table>
+        </dd>
+        <dt>Value:</dt>
+        <dd th:text="*{getOrderTotalValue()}"></dd>
+    </dl>
+
+
+</div>
+</body>
+</html>

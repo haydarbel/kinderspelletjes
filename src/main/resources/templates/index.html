@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="icon" th:href="@{/images/retrovideo.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/toys.css}">
+</head>
+<body>
+
+<h2>Unshipped Orders</h2>
+<div th:if="${noOrderSelected}">
+    <h1 th:text="${noOrderSelected}" style="color: orange"></h1>
+</div>
+<div th:if="${failedOrders}">
+    <h2 th:text="${failedOrders}" style="color: red"></h2>
+</div>
+<form method="post" th:action="@{/bevestigd}">
+    <table th:if="${ordersToBeShip}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ordered</th>
+            <th>Required</th>
+            <th>Customer</th>
+            <th>Comments</th>
+            <th>Status</th>
+            <th>Ship</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order:${ordersToBeShip}" th:object="${order}">
+            <td>
+                <a th:text="*{id}" th:href="@{/detail/{id}(id=*{id})}"></a>
+            </td>
+            <td th:text="*{ordered}"></td>
+            <td th:text="*{required}"></td>
+            <td th:text="*{customer.getName()}"></td>
+            <td th:text="*{comments}"></td>
+            <td th:text="|*{status}|" ></td>
+            <td>
+                <input type="checkbox" name="id" th:value="*{id}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button>Set as Shipped</button>
+</form>
+</body>
+<script th:src="@{/js/preventDoubleSubmit.js}" defer></script>
+</html>

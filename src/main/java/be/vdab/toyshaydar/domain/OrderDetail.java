@@ -1,5 +1,8 @@
 package be.vdab.toyshaydar.domain;
 
+import be.vdab.toyshaydar.exceptions.UnsufficientStockException;
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,20 +12,34 @@ import java.util.Objects;
 public class OrderDetail {
 
     private long ordered;
+    @NumberFormat(pattern = "0.00")
     private BigDecimal priceEach;
 
-    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "productId")
     private Product product;
 
 
-    public OrderDetail( Product product, long ordered, BigDecimal priceEach) {
+    public OrderDetail(Product product, long ordered, BigDecimal priceEach) {
         this.product = product;
         this.ordered = ordered;
         this.priceEach = priceEach;
     }
 
     protected OrderDetail() {
+    }
+
+    public boolean canItBeShipped() {
+        return product.getInStock() >= ordered && product.getInOrder() >= ordered;
+    }
+    public boolean makeOrderDetailDone() {
+        if (canItBeShipped()) {
+            product.setInStock(product.getInStock() - ordered);
+            product.setInOrder(product.getInOrder() - ordered);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -50,13 +67,12 @@ public class OrderDetail {
         return priceEach;
     }
 
+    @NumberFormat(pattern = "0.00")
     public BigDecimal getValue() {
         return priceEach.multiply(BigDecimal.valueOf(ordered));
     }
 
-    public boolean isShippable() {
-        return product.canBeShippedProduct() >= ordered;
-    }
+
 
     @Override
     public String toString() {

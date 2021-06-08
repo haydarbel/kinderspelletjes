@@ -13,13 +13,13 @@ public class Product {
     private String name;
     private String scale;
     private String description;
-    private int inStock;
-    private int inOrder;
+    private long inStock;
+    private long inOrder;
     private BigDecimal price;
     @Version
-    private int version;
+    private long version;
 
-    public Product(String name, String scale, String description, int inStock, int inOrder, BigDecimal price) {
+    public Product(String name, String scale, String description, long inStock, long inOrder, BigDecimal price) {
         this.name = name;
         this.scale = scale;
         this.description = description;
@@ -47,19 +47,27 @@ public class Product {
         return description;
     }
 
-    public int getInStock() {
+    public long getInStock() {
         return inStock;
     }
 
-    public int getInOrder() {
+    public long getInOrder() {
         return inOrder;
+    }
+
+    protected void setInStock(long inStock) {
+        this.inStock = inStock;
+    }
+
+    protected void setInOrder(long inOrder) {
+        this.inOrder = inOrder;
     }
 
     public BigDecimal getPrice() {
         return price;
     }
 
-    public int getVersion() {
+    public long getVersion() {
         return version;
     }
 
@@ -67,9 +75,6 @@ public class Product {
         this.version = version;
     }
 
-    public long canBeShippedProduct() {
-        return inStock - inOrder;
-    }
 
     @Override
     public boolean equals(Object o) {

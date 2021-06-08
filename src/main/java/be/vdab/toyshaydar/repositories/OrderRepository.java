@@ -13,6 +13,8 @@ public interface OrderRepository {
     Optional<Order> findOrderById(long id);
     List<Order> findCencelledOrders();
     List<Order> findAllOrdersExceptCancelledShipped();
+
+    List<Order> findOrdersByIds(List<Long> ids);
     List<Order> findAllOrders();
 
 

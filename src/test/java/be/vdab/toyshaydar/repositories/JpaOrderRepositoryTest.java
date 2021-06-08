@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 @DataJpaTest
 @Import(JpaOrderRepository.class)
@@ -84,4 +86,12 @@ class JpaOrderRepositoryTest extends AbstractTransactionalJUnit4SpringContextTes
         assertThat(orders).hasSize(countRowsInTableWhere(ORDERS,
                 "status not in ('CANCELLED','SHIPPED')"));
     }
+
+    @Test
+    void findOrdersByIds() {
+        var orders = orderRepository.findOrdersByIds(List.of(1L, 2L));
+        assertThat(orders).extracting(order -> order.getId())
+                .element(1).isEqualTo(1L);
+    }
+
 }
