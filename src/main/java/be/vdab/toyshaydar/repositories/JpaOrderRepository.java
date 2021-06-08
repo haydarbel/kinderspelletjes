@@ -27,6 +27,7 @@ public class JpaOrderRepository implements OrderRepository {
     @Override
     public List<Order> findAllOrdersExceptCancelledAndShipped() {
         return manager.createNamedQuery("Order.findAllOrdersExceptCancelledShipped", Order.class)
+                .setHint("javax.persistence.loadgraph",manager.createEntityGraph(Order.WITH_CUSTOMER))
                 .getResultList();
     }
 

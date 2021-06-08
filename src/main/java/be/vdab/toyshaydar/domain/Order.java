@@ -10,7 +10,10 @@ import java.util.*;
 
 @Entity
 @Table(name = "orders")
+@NamedEntityGraph(name = Order.WITH_CUSTOMER,
+        attributeNodes = @NamedAttributeNode("customer"))
 public class Order {
+    public static final String WITH_CUSTOMER = "Order.withCustomer";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -61,7 +64,7 @@ public class Order {
 
     public boolean setOrderAsShipped() {
         for (OrderDetail orderDetail : orderDetails) {
-            if (!orderDetail.makeOrderDetailDone()) {
+            if (!orderDetail.reduceInorderAndInStockWithOrdered()) {
                 return false;
             }
         }

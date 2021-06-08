@@ -1,6 +1,5 @@
 package be.vdab.toyshaydar.domain;
 
-import be.vdab.toyshaydar.exceptions.UnsufficientStockException;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -32,7 +31,7 @@ public class OrderDetail {
         return product.getInStock() >= ordered && product.getInOrder() >= ordered;
     }
 
-    public boolean makeOrderDetailDone() {
+    public boolean reduceInorderAndInStockWithOrdered() {
         if (canItBeShipped()) {
             product.setInStock(product.getInStock() - ordered);
             product.setInOrder(product.getInOrder() - ordered);
