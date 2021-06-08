@@ -22,13 +22,12 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public boolean setAsShippped(long id) {
+    public void setAsShippped(long id) {
         if (!repository.findOrderById(id)
                 .orElseThrow(OrderNietGevondenException::new)
                 .setOrderAsShipped()) {
             throw new UnsufficientStockException();
         }
-        return true;
     }
 
     @Override

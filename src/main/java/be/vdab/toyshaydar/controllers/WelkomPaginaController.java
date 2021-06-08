@@ -1,5 +1,6 @@
 package be.vdab.toyshaydar.controllers;
 
+import be.vdab.toyshaydar.exceptions.OrderNietGevondenException;
 import be.vdab.toyshaydar.exceptions.UnsufficientStockException;
 import be.vdab.toyshaydar.services.OrderService;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,8 @@ class WelkomPaginaController {
                     orderService.setAsShippped(orderId);
                 } catch (UnsufficientStockException e) {
                     canNotBeSetShipped.add(orderId);
+                } catch (OrderNietGevondenException ignored) {
+
                 }
             }
             redirectAttributes.addFlashAttribute("failedOrders", "Shipping failed for Order(s) " + canNotBeSetShipped.toString() + ",not enough stock!");

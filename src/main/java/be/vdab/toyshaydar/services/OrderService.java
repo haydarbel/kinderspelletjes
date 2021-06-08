@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    boolean setAsShippped(long id);
+    void setAsShippped(long id);
     List<Order> findOrdersToBeShip();
     Optional<Order> findOrderById(long id);
 
