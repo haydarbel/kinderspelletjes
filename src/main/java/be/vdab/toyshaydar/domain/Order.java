@@ -1,5 +1,6 @@
 package be.vdab.toyshaydar.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -65,10 +66,11 @@ public class Order {
             }
         }
         setStatus(OrderStatus.SHIPPED);
+        setShipped(LocalDate.now());
         return true;
     }
 
-    @NumberFormat(pattern = "0.00")
+    @NumberFormat(pattern = "#,##0.00")
     public BigDecimal getOrderTotalValue() {
         return orderDetails.stream()
                 .map(OrderDetail::getValue)
@@ -82,13 +84,17 @@ public class Order {
     public long getId() {
         return id;
     }
-
+    @DateTimeFormat(pattern = "dd/MM/yy")
     public LocalDate getOrdered() {
         return ordered;
     }
-
+    @DateTimeFormat(pattern = "dd/MM/yy")
     public LocalDate getRequired() {
         return required;
+    }
+
+    public void setShipped(LocalDate shipped) {
+        this.shipped = shipped;
     }
 
     public LocalDate getShipped() {

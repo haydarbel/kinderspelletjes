@@ -1,5 +1,7 @@
 package be.vdab.toyshaydar.domain;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -15,6 +17,7 @@ public class Product {
     private String description;
     private long inStock;
     private long inOrder;
+    @NumberFormat(pattern = "#,##0.00")
     private BigDecimal price;
     @Version
     private long version;

@@ -12,7 +12,6 @@ import java.util.Objects;
 public class OrderDetail {
 
     private long ordered;
-    @NumberFormat(pattern = "0.00")
     private BigDecimal priceEach;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -67,7 +66,7 @@ public class OrderDetail {
         return priceEach;
     }
 
-    @NumberFormat(pattern = "0.00")
+    @NumberFormat(pattern = "#,##0.00")
     public BigDecimal getValue() {
         return priceEach.multiply(BigDecimal.valueOf(ordered));
     }

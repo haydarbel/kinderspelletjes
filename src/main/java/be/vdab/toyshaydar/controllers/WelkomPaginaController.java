@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,7 @@ class WelkomPaginaController {
                 orderService.findOrdersToBeShip());
     }
 
-    @PostMapping("bevestigd")
+    @PostMapping("shipped")
     public String shipped(Optional<Long[]> id, RedirectAttributes redirectAttributes) {
         List<Long> canNotBeSetShipped = new ArrayList<>();
         if (id.isPresent()) {
@@ -49,10 +50,10 @@ class WelkomPaginaController {
     }
 
     @GetMapping("detail/{id}")
-    public ModelAndView order(@PathVariable long id) {
+    public ModelAndView order(@PathVariable("id")  @Positive long id) {
         var modelAndView = new ModelAndView("order");
         orderService.findOrderById(id)
-                .ifPresent(order -> modelAndView.addObject("order", order));
+                .ifPresent(order -> {modelAndView.addObject("order", order);});
         return modelAndView;
     }
 }
