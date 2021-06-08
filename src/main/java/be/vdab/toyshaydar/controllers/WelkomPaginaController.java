@@ -50,7 +50,7 @@ class WelkomPaginaController {
             }
             return "redirect:/";
         }
-        redirectAttributes.addFlashAttribute("noOrderSelected", "You must chose at least one order!");
+        redirectAttributes.addFlashAttribute("noOrderSelected", "You must chose at least an order!");
         return "redirect:/";
     }
 
@@ -58,9 +58,8 @@ class WelkomPaginaController {
     public ModelAndView order(@PathVariable("id") @Positive long id) {
         var modelAndView = new ModelAndView("order");
         orderService.findOrderById(id)
-                .ifPresent(order -> {
-                    modelAndView.addObject("order", order);
-                });
+                .ifPresent(order ->
+                        modelAndView.addObject("order", order));
         return modelAndView;
     }
 }
