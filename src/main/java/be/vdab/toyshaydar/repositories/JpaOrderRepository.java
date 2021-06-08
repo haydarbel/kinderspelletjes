@@ -16,45 +16,23 @@ public class JpaOrderRepository implements OrderRepository {
         this.manager = manager;
     }
 
-    @Override
-    public Optional<Customer> findCustomerById(long id) {
-        return Optional.ofNullable(manager.find(Customer.class, id));
-    }
-
-    @Override
-    public Optional<Product> findProductById(long id) {
-        return Optional.ofNullable(manager.find(Product.class, id));
-    }
 
     @Override
     public Optional<Order> findOrderById(long id) {
         return Optional.ofNullable(manager.find(Order.class, id));
     }
 
-    @Override
-    public List<Order> findCencelledOrders() {
-        return manager.createNamedQuery("Order.findCancelledOrders", Order.class)
-                .getResultList();
-    }
+
 
     @Override
-    public List<Order> findAllOrdersExceptCancelledShipped() {
+    public List<Order> findAllOrdersExceptCancelledAndShipped() {
         return manager.createNamedQuery("Order.findAllOrdersExceptCancelledShipped", Order.class)
                 .getResultList();
     }
 
-    @Override
-    public List<Order> findOrdersByIds(List<Long> ids) {
-        return manager.createNamedQuery("Order.findOrdersByIds", Order.class)
-                .setParameter("ids", ids)
-                .getResultList();
-    }
 
 
-    @Override
-    public List<Order> findAllOrders() {
-        return manager.createNamedQuery("Order.findAllOrders", Order.class)
-                .getResultList();
-    }
+
+
 
 }

@@ -14,7 +14,7 @@ public class OrderDetail {
     private long ordered;
     private BigDecimal priceEach;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "productId")
     private Product product;
 

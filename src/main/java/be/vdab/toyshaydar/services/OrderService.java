@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OrderService {
     void setAsShippped(long id);
-    List<Order> findOrdersToBeShip();
+    List<Order> findAllOrdersExceptCancelledAndShipped();
     Optional<Order> findOrderById(long id);
 
 }

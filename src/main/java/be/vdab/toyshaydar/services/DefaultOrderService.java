@@ -31,8 +31,8 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> findOrdersToBeShip() {
-        return repository.findAllOrdersExceptCancelledShipped();
+    public List<Order> findAllOrdersExceptCancelledAndShipped() {
+        return repository.findAllOrdersExceptCancelledAndShipped();
     }
 
     @Override

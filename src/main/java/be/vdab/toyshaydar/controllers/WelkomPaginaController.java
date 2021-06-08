@@ -28,7 +28,7 @@ class WelkomPaginaController {
     @GetMapping()
     public ModelAndView index() {
         return new ModelAndView("index", "ordersToBeShip",
-                orderService.findOrdersToBeShip());
+                orderService.findAllOrdersExceptCancelledAndShipped());
     }
 
     @PostMapping("shipped")
@@ -45,7 +45,9 @@ class WelkomPaginaController {
 
                 }
             }
-            redirectAttributes.addFlashAttribute("failedOrders", "Shipping failed for Order(s) " + canNotBeSetShipped.toString() + ",not enough stock!");
+            if (!canNotBeSetShipped.isEmpty()) {
+                redirectAttributes.addFlashAttribute("failedOrders", "Shipping failed for Order(s) " + canNotBeSetShipped.toString() + ",not enough stock!");
+            }
             return "redirect:/";
         }
         redirectAttributes.addFlashAttribute("noOrderSelected", "You must chose at least one order!");
@@ -53,10 +55,12 @@ class WelkomPaginaController {
     }
 
     @GetMapping("detail/{id}")
-    public ModelAndView order(@PathVariable("id")  @Positive long id) {
+    public ModelAndView order(@PathVariable("id") @Positive long id) {
         var modelAndView = new ModelAndView("order");
         orderService.findOrderById(id)
-                .ifPresent(order -> {modelAndView.addObject("order", order);});
+                .ifPresent(order -> {
+                    modelAndView.addObject("order", order);
+                });
         return modelAndView;
     }
 }

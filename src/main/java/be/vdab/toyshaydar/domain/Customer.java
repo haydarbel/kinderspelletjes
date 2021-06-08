@@ -18,10 +18,6 @@ public class Customer {
     @JoinColumn(name = "countryId")
     private Country country;
 
-    @OneToMany(mappedBy = "customer")
-    @OrderBy("ordered,required")
-    private Set<Order> orders;
-
     @Version
     private long version;
 
@@ -34,9 +30,6 @@ public class Customer {
     protected Customer() {
     }
 
-    public Set<Order> getOrders() {
-        return Collections.unmodifiableSet(orders);
-    }
 
     public long getId() {
         return id;
@@ -64,8 +57,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }
