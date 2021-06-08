@@ -70,14 +70,6 @@ public class Product {
         return price;
     }
 
-    public long getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
 
     @Override
     public boolean equals(Object o) {

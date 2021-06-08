@@ -117,7 +117,4 @@ public class Order {
         return customer;
     }
 
-    public long getVersion() {
-        return version;
-    }
 }

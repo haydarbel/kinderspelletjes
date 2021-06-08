@@ -31,6 +31,7 @@ public class OrderDetail {
     public boolean canItBeShipped() {
         return product.getInStock() >= ordered && product.getInOrder() >= ordered;
     }
+
     public boolean makeOrderDetailDone() {
         if (canItBeShipped()) {
             product.setInStock(product.getInStock() - ordered);
@@ -39,6 +40,11 @@ public class OrderDetail {
         } else {
             return false;
         }
+    }
+
+    @NumberFormat(pattern = "#,##0.00")
+    public BigDecimal getValue() {
+        return priceEach.multiply(BigDecimal.valueOf(ordered));
     }
 
     @Override
@@ -66,17 +72,8 @@ public class OrderDetail {
         return priceEach;
     }
 
-    @NumberFormat(pattern = "#,##0.00")
-    public BigDecimal getValue() {
-        return priceEach.multiply(BigDecimal.valueOf(ordered));
-    }
-
-
-
     @Override
     public String toString() {
-        return "OrderDetail{" +
-                "product=" + product.getName() +
-                '}';
+        return product.getName();
     }
 }

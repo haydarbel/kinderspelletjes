@@ -53,11 +53,5 @@ class DefaultOrderServiceTest {
         assertThat(order.getStatus()).isEqualTo(OrderStatus.PROCESSING);
     }
 
-    @Test
-    void findOrdersToBeShip() {
-    }
 
-    @Test
-    void findOrderById() {
-    }
 }

@@ -41,13 +41,6 @@ public class Country {
         return name;
     }
 
-    public long getVersion() {
-        return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
-    }
 
     @Override
     public String toString() {
