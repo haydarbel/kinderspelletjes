@@ -5,8 +5,9 @@ import be.vdab.toyshaydar.exceptions.OrderNietGevondenException;
 import be.vdab.toyshaydar.exceptions.UnsufficientStockException;
 import be.vdab.toyshaydar.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +32,13 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findAllOrdersExceptCancelledAndShipped() {
         return repository.findAllOrdersExceptCancelledAndShipped();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Order> findOrderById(long id) {
         return repository.findOrderById(id);
     }
